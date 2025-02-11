@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+  <h2>Reschedule Appointment Slot</h2>
+  <form method="POST" action="{{ url_for('reschedule_appointment', appointment_id=appointment.id) }}">
+    <label for="appointment_date">New Appointment Date and Time:</label>
+    <input type="datetime-local" name="appointment_date" id="appointment_date" required
+           value="{{ appointment.appointment_date.strftime('%Y-%m-%dT%H:%M') }}">
+    <button type="submit" class="btn">Reschedule</button>
+  </form>
+  <br>
+  <a href="{{ url_for('teacher_dashboard') }}" class="btn">Back to Dashboard</a>
+</div>
+{% endblock %}

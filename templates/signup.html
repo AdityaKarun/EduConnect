@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+  <h2>Sign Up</h2>
+  <form method="POST" action="{{ url_for('signup') }}">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+
+    <label for="role">Role:</label>
+    <select name="role" id="role" required>
+      <option value="" disabled selected>Select your role</option>
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+
+    <label for="branch">Branch:</label>
+    <select class="form-control" id="branch" name="branch" required>
+      <option value="" disabled selected>Select your branch</option>
+      <option value="computer science">Computer Science</option>
+      <option value="information science">Information Science</option>
+      <option value="electronics and communications">Electronics and Communications</option>
+      <option value="mechanical">Mechanical</option>
+      <option value="civil">Civil</option>
+    </select>
+
+    <label for="semester" id="semester-group" style="display: none;">
+      Semester:
+      <select id="semester" name="semester" class="form-control">
+      <option value="" disabled selected>Select semester</option>
+      {% for i in range(1, 9) %}
+      <option value="{{ i }}">{{ i }}</option>
+      {% endfor %}
+      </select>
+    </label>
+
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('role').addEventListener('change', function() {
+    var semesterGroup = document.getElementById('semester-group');
+    if (this.value === 'student') {
+      semesterGroup.style.display = 'block';
+    } else {
+      semesterGroup.style.display = 'none';
+    }
+  });
+</script>
+{% endblock %}

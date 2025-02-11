@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard">
+  <h2>Student Dashboard</h2>
+  
+  <!-- About Me Section -->
+  <div class="about-me">
+    <h3>About Me</h3>
+    <p><strong>Name:</strong> {{ student.username }}</p>
+    <p><strong>Role:</strong> {{ student.role | title }}</p>
+    <p><strong>Branch:</strong> {{ student.branch | title }}</p>
+    <p><strong>Semester:</strong> {{ student.semester }}</p>
+  </div>
+  
+  <h3>Available Appointments</h3>
+  {% if available_appointments %}
+  <table>
+    <thead>
+      <tr>
+        <th>Appointment Date</th>
+        <th>Appointment Time</th>
+        <th>Teacher</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for appointment, teacher in available_appointments %}
+      <tr>
+        <td>{{ appointment.appointment_date.strftime('%d-%m-%Y') }}</td>
+        <td>{{ appointment.appointment_date.strftime('%H:%M') }}</td>
+        <td>{{ teacher.username }}</td>
+        <td>
+          <a href="{{ url_for('book_appointment', appointment_id=appointment.id) }}" class="btn small">Book</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No available appointments.</p>
+  {% endif %}
+  
+  <h3>Your Appointments</h3>
+  {% if booked_appointments %}
+  <table>
+    <thead>
+      <tr>
+        <th>Appointment Date</th>
+        <th>Appointment Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for appointment in booked_appointments %}
+      <tr>
+        <td>{{ appointment.appointment_date.strftime('%d-%m-%Y') }}</td>
+        <td>{{ appointment.appointment_date.strftime('%H:%M') }}</td>
+        <td>{{ 'Booked' if appointment.booked else 'Available' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No appointments booked yet.</p>
+  {% endif %}
+  
+  <h3>Your Works</h3>
+  {% if works %}
+  <table>
+    <thead>
+      <tr>
+        <th>Work</th>
+        <th>Teacher</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for work, teacher in works %}
+      <tr>
+        <td class="work-content" id="work-{{ work.id }}">{{ work.content }}</td>
+        <td>{{ teacher.username }}</td>
+        <td>
+          <button class="btn small" onclick="toggleCompletion('{{ work.id }}')">Completed</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No works assigned yet.</p>
+  {% endif %}
+</div>
+
+<script>
+  function toggleCompletion(workId) {
+    var workContent = document.getElementById('work-' + workId);
+    if (workContent.style.textDecoration === 'line-through') {
+      workContent.style.textDecoration = 'none';
+    } else {
+      workContent.style.textDecoration = 'line-through';
+    }
+  }
+</script>
+{% endblock %}

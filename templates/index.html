@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+  <h2>Welcome to EduConnect</h2>
+  <p>Bridging the gap between teachers and students.</p>
+  {% if not session.get('user_id') %}
+  <div class="hero-buttons">
+    <a href="{{ url_for('signup') }}" class="btn">Sign Up</a>
+    <a href="{{ url_for('login') }}" class="btn">Log In</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

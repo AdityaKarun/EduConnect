@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EduConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Add external CSS or fonts here if desired -->
+</head>
+<body>
+  <header>
+    <h1>EduConnect</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        {% if session.get('user_id') %}
+          {% if session.get('role') == 'teacher' %}
+            <li><a href="{{ url_for('teacher_dashboard') }}">Dashboard</a></li>
+          {% else %}
+            <li><a href="{{ url_for('student_dashboard') }}">Dashboard</a></li>
+          {% endif %}
+          <li><a href="{{ url_for('logout') }}">Logout ({{ session.get('username') }})</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          <li><a href="{{ url_for('signup') }}">Signup</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('about') }}">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert {{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer>
+    <p>&copy; 2025 | EduConnect</p>
+  </footer>
+</body>
+</html>

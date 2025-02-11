@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="appointment-details">
+  <h2>Appointment Details</h2>
+  <p><strong>Date and Time:</strong> {{ appointment.appointment_date.strftime('%d-%m-%Y, %H:%M') }}</p>
+  <p><strong>Status:</strong> {{ 'Booked' if appointment.booked else 'Available' }}</p>
+  {% if student %}
+    <p><strong>Booked By:</strong> {{ student.username }}</p>
+  {% else %}
+    <p>This appointment slot has not been booked yet.</p>
+  {% endif %}
+  <a href="{{ url_for('teacher_dashboard') }}" class="btn">Back to Dashboard</a>
+</div>
+{% endblock %}

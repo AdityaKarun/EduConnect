@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+  <h2>Add Appointment Slot</h2>
+  <form method="POST" action="{{ url_for('add_appointment') }}">
+    <label for="appointment_date">Appointment Date and Time:</label>
+    <input type="datetime-local" name="appointment_date" id="appointment_date" required>
+    <button type="submit" class="btn">Add Slot</button>
+  </form>
+  <br>
+  <a href="{{ url_for('teacher_dashboard') }}" class="btn">Back to Dashboard</a>
+</div>
+{% endblock %}
